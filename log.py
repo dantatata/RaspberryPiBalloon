@@ -11,7 +11,7 @@ from picamera import PiCamera
 
 #collect altitude and temperature
 altitude = BMP280.altitude
-temperature = BMP280.fTemp
+temperature = BMP280.temperatureF
 
 #collect GPS
 latitude = GPS.latitude
