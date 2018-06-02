@@ -9,7 +9,7 @@ from picamera import PiCamera
 gps = GPS.getGPS()
 
 #collect altitude and temperature
-altitude = BMP280.altitude
+altitude = BMP280.altitudeF
 temperature = BMP280.temperatureF
 
 #collect GPS
@@ -17,6 +17,8 @@ latitude = gps['latitude']
 longitude = gps['longitude']
 speed = gps['speed']
 timestamp = gps['timestamp']
+altitudeMeters = gps['altitude']
+altitude = altitudeMeters * 3.2808
 		
 #write to log
 row = [timestamp, latitude, longitude, altitude, speed, temperature]
