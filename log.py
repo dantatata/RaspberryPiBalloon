@@ -13,10 +13,10 @@ altitude = BMP280.altitude
 temperature = BMP280.temperatureF
 
 #collect GPS
-latitude = gps.latitude
-longitude = gps.longitude
-speed = gps.speed
-timestamp = gps.timestamp
+latitude = gps['latitude']
+longitude = gps['longitude']
+speed = gps['speed']
+timestamp = gps['timestamp']
 		
 #write to log
 row = [timestamp, latitude, longitude, altitude, speed, temperature]
