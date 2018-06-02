@@ -33,7 +33,7 @@ while gpsResponse == '':
 			response = ser.readline()
 		gpsResponse = response.split(',')	
 		fix = gpsResponse[1]
-	attempts = count+1
+	attempts = attempts+1
 timestamp = gpsResponse[2]
 latitude = gpsResponse[3]
 longitude = gpsResponse[4]
