@@ -22,7 +22,7 @@ def getGPS():
 		response = ser.readline()
 		while response.find('+CGNSPWR:') < 0:
 			response = ser.readline()
-		if response.find('+CGNSPWR: 1') > 0:
+		if response.find('+CGNSPWR: 1') >= 0:
 			gpsPower = 1
 		if response.find('+CGNSPWR: 1') < 0:
 			ser.write(command[1])	
