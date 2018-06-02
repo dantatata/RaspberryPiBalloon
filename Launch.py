@@ -17,11 +17,11 @@ latitude = gps['latitude']
 longitude = gps['longitude']
 speed = gps['speed']
 timestamp = gps['timestamp']
-altitudeMeters = gps['altitude']
-altitude = float(altitudeMeters) * 3.2808
+gpsAltitudeMeters = gps['altitude']
+gpsAltitudeFeet = float(altitudeMeters) * 3.2808
 		
 #write to log
-row = [timestamp, latitude, longitude, altitude, speed, temperature]
+row = [timestamp, latitude, longitude, altitude, gpsAltitudeFeet, speed, temperature]
 
 with open('log.csv', 'a') as logFile:
     writer = csv.writer(logFile)
