@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
 
-import serial
 import BMP280
 import GPS
 import csv
 import time
 import datetime
 from picamera import PiCamera
-
+gps = GPS.getGPS()
 
 #collect altitude and temperature
 altitude = BMP280.altitude
 temperature = BMP280.temperatureF
 
 #collect GPS
-latitude = GPS.latitude
-longitude = GPS.longitude
-speed = GPS.speed
-timestamp = GPS.timestamp
+latitude = gps.latitude
+longitude = gps.longitude
+speed = gps.speed
+timestamp = gps.timestamp
 		
 #write to log
 row = [timestamp, latitude, longitude, altitude, speed, temperature]
