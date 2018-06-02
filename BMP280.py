@@ -80,7 +80,7 @@ var2 = (((adc_t) / 131072.0 - (dig_T1) / 8192.0) * ((adc_t)/131072.0 - (dig_T1)/
 t_fine = (var1 + var2)
 cTemp = (var1 + var2) / 5120.0
 fTemp = cTemp * 1.8 + 32
-temperatureC = rount(cTemp, 2)
+temperatureC = round(cTemp, 2)
 temperatureF = round(fTemp, 2)
 
 # Pressure offset calculations
