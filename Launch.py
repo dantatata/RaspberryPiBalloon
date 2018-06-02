@@ -18,7 +18,7 @@ longitude = gps['longitude']
 speed = gps['speed']
 timestamp = gps['timestamp']
 gpsAltitudeMeters = gps['altitude']
-gpsAltitudeFeet = float(altitudeMeters) * 3.2808
+gpsAltitudeFeet = float(gpsAltitudeMeters) * 3.2808
 		
 #write to log
 row = [timestamp, latitude, longitude, altitude, gpsAltitudeFeet, speed, temperature]
