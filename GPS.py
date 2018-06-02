@@ -29,8 +29,8 @@ while gpsResponse == '':
 		ser.write(command[2])
 		time.sleep(2)
 		response = ser.readline()
-			while response.find('+CGNSINF:') < 0:
-				response = ser.readline()
+		while response.find('+CGNSINF:') < 0:
+			response = ser.readline()
 		gpsResponse = response.split(',')	
 		fix = gpsResponse[1]
 	attempts = count+1
