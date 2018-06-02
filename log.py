@@ -32,11 +32,11 @@ picTimestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 if altitude < 18000:
 	camera.start_preview()
 	time.sleep(5)
-	camera.capture('/home/pi/RaspberryPiBalloon/Media/image ' + picTimestamp + '.jpg')
+	camera.capture('/home/pi/RaspberryPiBalloon/image ' + picTimestamp + '.jpg')
 	camera.stop_preview()
 else:
 	camera.start_preview()
-	camera.start_recording('/home/pi/RaspberryPiBalloon/Medica/video ' + picTimestamp + '.h264')
+	camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + picTimestamp + '.h264')
 	time.sleep(30)
 	camera.stop_recording()
 	camera.stop_preview()

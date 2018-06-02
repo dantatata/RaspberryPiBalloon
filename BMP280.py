@@ -98,7 +98,7 @@ pressure = (p + (var1 + var2 + (dig_P7)) / 16.0) / 100
 
 # Convert pressure into altitude
 floatpressure = float(pressure)
-sealevel_pa=101325.0
+sealevel_pa=1013.250
 altitude = round(((cTemp + 273.15) / 0.0065) * (pow(sealevel_pa / floatpressure, (1.0/5.255)) - 1), 2)
 
 
