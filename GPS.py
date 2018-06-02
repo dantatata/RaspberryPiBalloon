@@ -11,12 +11,6 @@ gpsFix = 0
 def getGPS():
 	global gpsPower
 	global gpsFix
-	global timestamp
-	global latitude
-	global longitude
-	global speed
-	attempts = 0
-	resets = 0
 	if gpsPower == 0:
 		ser.write(command[0])
 		response = ser.readline()
@@ -41,8 +35,9 @@ def getGPS():
 		response = ser.readline()
 		gpsResponse = response.split(',')	
 		gpsFix = gpsResponse[1]
-	timestamp = gpsResponse[2]
-	latitude = gpsResponse[3]
-	longitude = gpsResponse[4]
-	altitude = gpsResponse[5]
-	speed = gpsResponse[6]	
+	return {
+	'timestamp' : gpsResponse[2],
+	'latitude' : gpsResponse[3],
+	'longitude' : gpsResponse[4],
+	'altitude' : gpsResponse[5],
+	'speed' : gpsResponse[6]}
