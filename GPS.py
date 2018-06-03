@@ -10,6 +10,7 @@ gpsPower = 0
 def getGPS():
 	global gpsPower
 	global gpsFix
+	global response
 	if gpsPower == 0:
 		ser.write(command[0])
 		response = ser.readline()
