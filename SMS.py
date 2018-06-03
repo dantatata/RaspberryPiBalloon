@@ -5,7 +5,7 @@ import time
 import os
 ser = serial.Serial("/dev/ttyS0", 115200)
 ser.timeout=1
-command = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+[SMSC]\"\r\n", "AT+CMGS=\"16086285197\"\r\n", "AT+CMGL=ALL\r\n", "AT+CMGD=ALL\r\n"]
+command = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"+16086285197\"\r\n", "AT+CMGL=ALL\r\n", "AT+CMGD=ALL\r\n"]
 
 def send(str):
 	serialStatus = 0

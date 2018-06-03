@@ -7,8 +7,10 @@ import csv
 import time
 import datetime
 from picamera import PiCamera
+camera = PiCamera()
 missionActive = 1
 smsActive = 0
+RSSI = 0
 
 while missionActive == 1:
 	bmp = BMP280.BMP280()
@@ -36,6 +38,8 @@ while missionActive == 1:
 	#check for requests and commands
 	if smsActive == 1:
 		receivedSMS = SMS.receive()
+		if receivedSMS.find('LORA') >= 0:
+			activateLora = 1
 		if receivedSMS.find('SPEED') >= 0:
 			SMS.sendSMS(speed)
 		if receivedSMS.find('ALTITUDE') >= 0:
@@ -60,7 +64,6 @@ while missionActive == 1:
 	logFile.close()
 
 	#capture image or video
-	camera = PiCamera()
 	picTimestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 	if altitude < 18000:
 		camera.start_preview()
@@ -83,14 +86,22 @@ while missionActive == 1:
 # 
 # 
 # 	#turn on LoRa
-# 	loraMsg = lora.receive()
-# 	if loraMsg['Success'] = 1
-# 		lora.send('Online')
-# 	lora.send(gpsCoordinates)
-# 	previousRSSI = RSSI
-# 	RSSI = loraMsg['RSSI']
-# 	if RSSI > previousRSSI:
-# 		lora.send('Warmer!')
+# 	if activateLora = 1:
+#		lora.activate()
+#		SMS.send('LoRa activated')
+#		activateLora = 0
+#		loraActive = 1
+# 	if loraActive = 1:
+#		loraMsg = lora.receive()
+# 		if loraMsg.find('PING') >= 0:
+# 			lora.send('Message Received')
+#			previousRSSI = RSSI
+# 			RSSI = loraMsg['RSSI']
+# 			if RSSI > previousRSSI:
+# 				lora.send('Warmer!')
+#		if loraMsg.find('GPS') >= 0:
+# 			lora.send(gpsCoordinates)
+# 		
     
     
 # 
