@@ -4,7 +4,7 @@ import serial
 import time
 import os
 ser = serial.Serial("/dev/ttyS0", 115200)
-ser.timeout=1
+ser.timeout = 1
 command = ["AT\r\n", "AT+CGNSPWR?\r\n", "AT+CGNSPWR=1\r\n", "AT+CGNSINF\r\n", "AT+CGNSPWR=0\r\n"]
 gpsPower = 0
 
@@ -15,7 +15,11 @@ def getGPS():
 	serialStatus = 0
 	attempts = 0
 	while serialStatus = 0:
-		if attempts > 10:
+		if attempts = 10:
+			ser.close()
+			ser = serial.Serial("/dev/ttyS0", 115200)
+			ser.timeout = 1
+		if attempts = 20:
 			os.system('sudo reboot now')
 		ser.write(command[0])
 		response = ser.readline()
