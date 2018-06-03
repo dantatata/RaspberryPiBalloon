@@ -52,5 +52,5 @@ def getGPS():
 	'timestamp' : gpsResponse[2],
 	'latitude' : gpsResponse[3],
 	'longitude' : gpsResponse[4],
-	'altitude' : gpsResponse[5],
-	'speed' : gpsResponse[6]}
+	'altitude' : round(float(gpsResponse[5]), 2),
+	'speed' : round(float(gpsResponse[6]),2)}

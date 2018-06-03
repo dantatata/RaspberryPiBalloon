@@ -24,7 +24,7 @@ while missionActive == 1:
 	speed = gps['speed']
 	previousTimestamp = timestamp
 	timestamp = gps['timestamp']
-	gpsAltitudeMeters = float(gps['altitude'])
+	gpsAltitudeMeters = gps['altitude']
 	gpsAltitudeFeet = gpsAltitudeMeters * 3.2808
 
 	#pick altitude reading
