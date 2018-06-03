@@ -101,7 +101,7 @@ def BMP280():
 	floatpressure = float(pressure)
 	sealevel_pa=1013.250
 	altitudeM = round(((cTemp + 273.15) / 0.0065) * (pow(sealevel_pa / floatpressure, (1.0/5.255)) - 1), 2)
-	altitudeF = altitudeM * 3.2808
+	altitudeF = round(altitudeM * 3.2808, 2)
 
 	# Output data to screen
 	#print "Temperature in Celsius : %.2f C" %cTemp
