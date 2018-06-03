@@ -2,81 +2,95 @@
 
 import BMP280
 import GPS
+import SMS
 import csv
 import time
 import datetime
 from picamera import PiCamera
-gps = GPS.getGPS()
+missionActive = 1
+smsActive = 0
 
-#collect altitude and temperature
-altitude = BMP280.altitudeF
-temperature = BMP280.temperatureF
+while missionActive == 1:
+	bmp = BMP280.BMP280()
+	gps = GPS.getGPS()
 
-#collect GPS
-latitude = gps['latitude']
-longitude = gps['longitude']
-speed = gps['speed']
-timestamp = gps['timestamp']
-gpsAltitudeMeters = float(gps['altitude'])
-gpsAltitudeFeet = gpsAltitudeMeters * 3.2808
+	#collect altitude and temperature
+	bmpAltitude = bmp.altitudeF
+	temperature = bmp.temperatureF
 
-#write to log
-row = [timestamp, latitude, longitude, altitude, gpsAltitudeFeet, speed, temperature]
+	#collect GPS
+	latitude = gps['latitude']
+	longitude = gps['longitude']
+	speed = gps['speed']
+	previousTimestamp = timestamp
+	timestamp = gps['timestamp']
+	gpsAltitudeMeters = float(gps['altitude'])
+	gpsAltitudeFeet = gpsAltitudeMeters * 3.2808
 
-with open('log.csv', 'a') as logFile:
-    writer = csv.writer(logFile)
-    writer.writerow(row)
-logFile.close()
+	#pick altitude reading
+	if abs(bmpAltitude - gpsAltitudeFeet) > 200 or  gpsAltitudeFeet > 10000:
+		altitude = gpsAltitudeFeet
+	else:
+		altitude = bmpAltitude
+	
+	#check for requests and commands
+	if smsActive == 1:
+		receivedSMS = SMS.receive()
+		if receivedSMS.find('SPEED') >= 0:
+			SMS.sendSMS(speed)
+		if receivedSMS.find('ALTITUDE') >= 0:
+			SMS.sendSMS(altitude)
+		if receivedSMS.find('STOP') >= 0:
+			sendSMS = 0
+		if receivedSMS.find('ABORT') >= 0:
+			missionActive = 0
+	
+	#pause
+	elapsedTime = float(timestamp) - float(previousTimestamp)
+	if elapsedTime < 200
+		sleeptime = 120 - (elapsedTime * 60 / 100)
+		time.sleep(sleeptime)
+				
+	#write to log
+	row = [timestamp, latitude, longitude, bmpAltitude, gpsAltitudeFeet, speed, temperature]
 
-#capture image or video
-camera = PiCamera()
-picTimestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-if altitude < 18000:
-	camera.start_preview()
-	time.sleep(5)
-	camera.capture('/home/pi/RaspberryPiBalloon/image ' + picTimestamp + '.jpg')
-	camera.stop_preview()
-else:
-	camera.start_preview()
-	camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + picTimestamp + '.h264')
-	time.sleep(30)
-	camera.stop_recording()
-	camera.stop_preview()
+	with open('log.csv', 'a') as logFile:
+		writer = csv.writer(logFile)
+		writer.writerow(row)
+	logFile.close()
 
-#check speed and altitude and send GPS coordinates
-# if altitude < 500 && speed < 10
+	#capture image or video
+	camera = PiCamera()
+	picTimestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+	if altitude < 18000:
+		camera.start_preview()
+		time.sleep(5)
+		camera.capture('/home/pi/RaspberryPiBalloon/image ' + picTimestamp + '.jpg')
+		camera.stop_preview()
+	if altitude > 18000:
+		camera.start_preview()
+		camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + picTimestamp + '.h264')
+		time.sleep(30)
+		camera.stop_recording()
+		camera.stop_preview()
+
+# 	#check speed and altitude and send GPS coordinates
+# 	sendSMS = 1
+# 	if altitude < 1000 and speed < 10 and sendSMS = 1:
+# 		gpsCoordinates = str(latitude) + 'N, ' + str(longitude) + 'W'
+# 		SMS.send(gpsCoordinates)
+# 		smsActive = 1
 # 
-# 	W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+8613800755500\"\r\n", "AT+CMGS=\"18825271704\"\r\n",str(latitude, longitude)]
-# 	ser.write(W_buff[0])
-# 	ser.flushInput()
-# 	data = ""
-# 	num = 0
 # 
-# 	try:
-# 		while True:
-# 			#print ser.inWaiting()
-# 			while ser.inWaiting() > 0:
-# 				data += ser.read(ser.inWaiting())
-# 			if data != "":
-# 				print data
-# 				#if data.count("O") > 0 and data.count("K") > 0 and num < 3:	# the string have ok
-# 				if num < 3:
-# 					time.sleep(1)
-# 					ser.write(W_buff[num+1])
-# 				#if num == 3 and data.count(">") > 0:
-# 				if num == 3:
-# 					#print W_buff[4]
-# 					time.sleep(0.5)
-# 					ser.write(W_buff[4])
-# 					ser.write("\x1a\r\n")# 0x1a : send   0x1b : Cancel send
-# 				num =num +1
-# 				data = ""
-# 	except keyboardInterrupt:
-# 		if ser != None:
-# 			ser.close()
-			
-#turn on LoRa
-
+# 	#turn on LoRa
+# 	loraMsg = lora.receive()
+# 	if loraMsg['Success'] = 1
+# 		lora.send('Online')
+# 	lora.send(gpsCoordinates)
+# 	previousRSSI = RSSI
+# 	RSSI = loraMsg['RSSI']
+# 	if RSSI > previousRSSI:
+# 		lora.send('Warmer!')
     
     
 # 
