@@ -6,7 +6,6 @@ ser = serial.Serial("/dev/ttyS0", 115200)
 ser.timeout=1
 command = ["AT+CGNSPWR?\r\n", "AT+CGNSPWR=1\r\n", "AT+CGNSINF\r\n", "AT+CGNSPWR=0\r\n"]
 gpsPower = 0
-gpsFix = '0'
 
 def getGPS():
 	global gpsPower
@@ -22,7 +21,8 @@ def getGPS():
 			ser.write(command[1])	
 			gpsPower = 1
 			time.sleep(10)
-	while gpsFix == '0':
+	gpsFix = 0
+	while gpsFix == 0:
 		ser.write(command[2])
 		time.sleep(2)
 		response = ser.readline()
