@@ -22,17 +22,12 @@ def getGPS():
 			ser.write(command[1])	
 			gpsPower = 1
 			time.sleep(10)
-	ser.write(command[2])
-	time.sleep(2)
-	response = ser.readline()
-	while response.find('+CGNSINF:') < 0:
-		response = ser.readline()
-	gpsResponse = response.split(',')	
-	gpsFix = gpsResponse[1]
 	while gpsFix == '0':
 		ser.write(command[2])
 		time.sleep(2)
 		response = ser.readline()
+		while response.find('+CGNSINF:') < 0:
+			response = ser.readline()
 		gpsResponse = response.split(',')	
 		gpsFix = gpsResponse[1]
 	return {
