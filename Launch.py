@@ -5,7 +5,6 @@ import GPS
 import SMS
 import csv
 import time
-import datetime
 from picamera import PiCamera
 missionActive = 1
 smsActive = 0
@@ -64,11 +63,11 @@ while missionActive == 1:
 	if altitude < 18000:
 		camera.start_preview()
 		time.sleep(5)
-		camera.capture('/home/pi/RaspberryPiBalloon/image ' + timestamp + '.jpg')
+		camera.capture('/home/pi/RaspberryPiBalloon/ ' + timestamp + '.jpg')
 		camera.stop_preview()
 	if altitude > 18000:
 		camera.start_preview()
-		camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + timestamp + '.h264')
+		camera.start_recording('/home/pi/RaspberryPiBalloon/ ' + timestamp + '.h264')
 		time.sleep(30)
 		camera.stop_recording()
 		camera.stop_preview()
