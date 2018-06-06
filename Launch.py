@@ -5,12 +5,9 @@ import GPS
 import SMS
 import csv
 import time
-import datetime
 from picamera import PiCamera
-camera = PiCamera()
 missionActive = 1
 smsActive = 0
-RSSI = 0
 
 while missionActive == 1:
 	bmp = BMP280.BMP280()
@@ -26,7 +23,7 @@ while missionActive == 1:
 	speed = gps['speed']
 	previousTimestamp = timestamp
 	timestamp = gps['timestamp']
-	gpsAltitudeMeters = float(gps['altitude'])
+	gpsAltitudeMeters = gps['altitude']
 	gpsAltitudeFeet = gpsAltitudeMeters * 3.2808
 
 	#pick altitude reading
@@ -38,8 +35,6 @@ while missionActive == 1:
 	#check for requests and commands
 	if smsActive == 1:
 		receivedSMS = SMS.receive()
-		if receivedSMS.find('LORA') >= 0:
-			activateLora = 1
 		if receivedSMS.find('SPEED') >= 0:
 			SMS.sendSMS(speed)
 		if receivedSMS.find('ALTITUDE') >= 0:
@@ -64,14 +59,15 @@ while missionActive == 1:
 	logFile.close()
 
 	#capture image or video
+	camera = PiCamera()
 	if altitude < 18000:
 		camera.start_preview()
 		time.sleep(5)
-		camera.capture('/home/pi/RaspberryPiBalloon/image ' + timestamp + '.jpg')
+		camera.capture('/home/pi/RaspberryPiBalloon/ ' + timestamp + '.jpg')
 		camera.stop_preview()
 	if altitude > 18000:
 		camera.start_preview()
-		camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + timestamp + '.h264')
+		camera.start_recording('/home/pi/RaspberryPiBalloon/ ' + timestamp + '.h264')
 		time.sleep(30)
 		camera.stop_recording()
 		camera.stop_preview()
@@ -85,22 +81,14 @@ while missionActive == 1:
 # 
 # 
 # 	#turn on LoRa
-# 	if activateLora = 1:
-#		lora.activate()
-#		SMS.send('LoRa activated')
-#		activateLora = 0
-#		loraActive = 1
-# 	if loraActive = 1:
-#		loraMsg = lora.receive()
-# 		if loraMsg.find('PING') >= 0:
-# 			lora.send('Message Received')
-#			previousRSSI = RSSI
-# 			RSSI = loraMsg['RSSI']
-# 			if RSSI > previousRSSI:
-# 				lora.send('Warmer!')
-#		if loraMsg.find('GPS') >= 0:
-# 			lora.send(gpsCoordinates)
-# 		
+# 	loraMsg = lora.receive()
+# 	if loraMsg['Success'] = 1
+# 		lora.send('Online')
+# 	lora.send(gpsCoordinates)
+# 	previousRSSI = RSSI
+# 	RSSI = loraMsg['RSSI']
+# 	if RSSI > previousRSSI:
+# 		lora.send('Warmer!')
     
     
 # 
