@@ -61,15 +61,14 @@ while missionActive == 1:
 
 	#capture image or video
 	camera = PiCamera()
-	picTimestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 	if altitude < 18000:
 		camera.start_preview()
 		time.sleep(5)
-		camera.capture('/home/pi/RaspberryPiBalloon/image ' + picTimestamp + '.jpg')
+		camera.capture('/home/pi/RaspberryPiBalloon/image ' + timestamp + '.jpg')
 		camera.stop_preview()
 	if altitude > 18000:
 		camera.start_preview()
-		camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + picTimestamp + '.h264')
+		camera.start_recording('/home/pi/RaspberryPiBalloon/video ' + timestamp + '.h264')
 		time.sleep(30)
 		camera.stop_recording()
 		camera.stop_preview()
